@@ -83,6 +83,7 @@
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = "ansibleProvisioner/playbook.yml"
     end
+    
   end
   
 
