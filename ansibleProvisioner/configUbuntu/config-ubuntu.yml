@@ -1,0 +1,13 @@
+---
+- name: "configuração da maquina"
+  shell: sudo apt update &&  sudo apt upgrade -y
+  register: atualização de repositorios.
+
+- name: "instalar o nginx"
+  shell: sudo apt install nginx -y
+  state: presente
+  
+- name: "removendo pacotes desnecessários"
+  shell: sudo apt-get autoremove -y
+ 
+ 

@@ -1,0 +1,16 @@
+---
+- name: "start ci cd"
+  hosts: all
+  become: true
+  collections: 
+    - ansible.builtin
+    
+  tasks: 
+
+  - name: "configuração da maquina "
+    include_tasks: fastTeste/ansibleProvisioner/configUbuntu/config-ubuntu.yml
+    register:  resultadoConfiguracao
+
+ 
+    
+
