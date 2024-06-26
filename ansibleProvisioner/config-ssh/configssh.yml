@@ -1,0 +1,22 @@
+---
+- name: Configuração SSH
+  hosts: all
+  become: true
+  vars_files:
+    ~/fastTeste/ansibleProvisioner/vars/vars.yml  # Ajuste o caminho conforme a estrutura do seu projeto
+  tasks:
+    - name: Criar diretório .ssh na VM
+      ansible.builtin.file:
+        path: /home/vagrant/.ssh
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0700'
+
+    - name: Adicionar chave pública ao authorized_keys
+      ansible.builtin.authorized_key:
+        user: vagrant
+        key: "{{ lookup('file', ssh_public_key_path) }}"
+        state: present
+        path: /home/vagrant/.ssh/authorized_keys
+

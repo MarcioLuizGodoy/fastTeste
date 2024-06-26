@@ -1,13 +1,22 @@
 ---
-- name: "configuração da maquina"
-  shell: sudo apt update &&  sudo apt upgrade -y
-  register: atualização de repositorios.
+- name: Adicionar chave pública ao authorized_keys
+  hosts: all
+  become: true
+  vars_files:
+    - ../ansibleProvisioner/vars/vars.yml
+    tasks:
+      - name: Criar diretório .ssh na VM
+        ansible.builtin.file:
+          path: /home/vagrant/.ssh
+          state: directory
+          owner: vagrant
+          group: vagrant
+          mode: '0700'
 
-- name: "instalar o nginx"
-  shell: sudo apt install nginx -y
-  state: presente
-  
-- name: "removendo pacotes desnecessários"
-  shell: sudo apt-get autoremove -y
- 
- 
+    - name: Adicionar chave pública ao authorized_keys
+        ansible.builtin.authorized_key:
+         user: vagrant
+          key: "{{ lookup('file', ssh_public_key_path) }}"
+          state: present
+          path: /home/vagrant/.ssh/authorized_keys
+

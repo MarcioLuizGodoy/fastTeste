@@ -1,15 +1,18 @@
 ---
-- name: "start ci cd"
+- name: start ci cd
   hosts: all
   become: true
-  collections: 
-    - ansible.builtin
-    
-  tasks: 
+  tasks:
+    - name: primeiro passo
+      include_tasks: /home/mgodoy/fastTeste/ansibleProvisioner/config-ssh/configssh.yml
+      register: resultado
 
-  - name: "configuração da maquina "
-    include_tasks: fastTeste/ansibleProvisioner/configUbuntu/config-ubuntu.yml
-    register:  resultadoConfiguracao
+    - name: configuração da maquina
+      include_tasks: fastTeste/ansibleProvisioner/configUbuntu/config-ubuntu.yml
+      register: resultadoConfiguracao
+
+  
+ 
 
  
     

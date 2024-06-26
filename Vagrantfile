@@ -71,20 +71,19 @@
   #   apt-get install -y apache2
   # SHELL
 
-  Vagrant.configure("2") do |config|
-    config.vm.box = "ubuntu/trusty64"
-    config.vm.box_version = "20191107.0.0"
-  
-    config.vm.provider "virtualbox" do |vb|
-      vb.memory = 1024
-      vb.cpus = 2
+ Vagrant.configure("2") do |config| 
+    config.vm.box = "ubuntu/bionic64"
+    config.vm.network "private_network", ip: "192.168.56.10"
+    config.vm.provider 'virtualbox' do |vb|
+      vb.memory = "1024"
+      vb.cpus = "2"
+
+      config.vm.network "forwarded_port", guest: 80, host: 8080  # Redireciona porta 80 da VM para porta 8080 da host
+      config.vm.network "forwarded_port", guest: 22, host: 2222  # Redireciona porta 22 da VM para porta 2222 da host (SSH padrão)
     end
- 
-    config.vm.provision "ansible" do |ansible|
-      ansible.playbook = "ansibleProvisioner/playbook.yml"
-    end
-    
+     # Provisionamento usando Ansible localmente na VM
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "/home/mgodoy/fastTeste/ansibleProvisioner/playbook.yml"
+    ansible.become = true
   end
-  
-
-
+end
